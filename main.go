@@ -2,32 +2,48 @@ package main
 
 import (
 	"C"
+	"fmt"
 	"os"
-
+)
+import (
+	"github.com/davecgh/go-spew/spew"
 	"github.com/therecipe/qt/core"
-	"github.com/therecipe/qt/widgets"
+	_ "github.com/therecipe/qt/datavisualization"
+	"github.com/therecipe/qt/gui"
+	"github.com/therecipe/qt/qml"
 )
 
-func main() {
-	widgets.NewQApplication(len(os.Args), os.Args)
+// Application instance
+var Application *gui.QGuiApplication
 
-	//create a button and connect the clicked signal
-	var button = widgets.NewQPushButton2("Click me!", nil)
-	button.ConnectClicked(func(flag bool) {
-		widgets.QMessageBox_Information(nil, "OK", "You clicked me!", widgets.QMessageBox__Ok, widgets.QMessageBox__Ok)
+func main() {
+	Application = gui.NewQGuiApplication(len(os.Args), os.Args)
+	Application.SetApplicationDisplayName("Our Friend Shubby")
+
+	engine := qml.NewQQmlApplicationEngine(nil)
+
+	engine.ConnectChildEvent(func(event *core.QChildEvent) {
+		object := event.Child()
+		fmt.Printf(
+			"\nChildEvent!\nType: %# v\nObjectName: %q\n",
+			event.Type(),
+			object.ObjectName(),
+		)
+
+		spew.Dump(object)
 	})
 
-	//create a layout and add the button
-	var layout = widgets.NewQVBoxLayout()
-	layout.AddWidget(button, 0, core.Qt__AlignCenter)
+	engine.ConnectObjectCreated(func(object *core.QObject, url *core.QUrl) {
+		fmt.Printf(
+			"\nObjectCreated!\nQML File: %q\nObjectName: %q\n",
+			url.Path(core.QUrl__PrettyDecoded),
+			object.ObjectName(),
+		)
 
-	//create a window, add the layout and show the window
-	var window = widgets.NewQMainWindow(nil, 0)
-	window.SetWindowTitle("Hello World Example")
-	window.SetMinimumSize2(200, 200)
-	window.Layout().DestroyQObject()
-	window.SetLayout(layout)
-	window.Show()
+		spew.Dump(object)
+	})
 
-	widgets.QApplication_Exec()
+	engine.Load2("qml/main.qml")
+
+	os.Exit(gui.QGuiApplication_Exec())
 }
