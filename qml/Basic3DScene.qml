@@ -11,8 +11,13 @@ Rectangle {
     anchors.margins: 0
     color: "darkRed"
 
+    // Any child items to Basic3DScene will be appended
+    // to the sceneRoot (Entity{}) item.
+    default property alias entities: sceneRoot.children
+
     property alias camera: sceneRoot.camera
-    property alias entity: sceneRoot.entity
+    property alias renderSettings: sceneRoot.renderSettings
+    property alias inputSettings: sceneRoot.inputSettings
 
     // transform: Rotation {
     //     id: sceneRotation
@@ -34,15 +39,13 @@ Rectangle {
         Entity {
             id: sceneRoot
 
-            property Entity entity
             property alias camera: sceneRootCamera
             property alias renderSettings: sceneRootRenderSettings
             property alias inputSettings: sceneRootInputSettings
 
             components: [
                 sceneRoot.renderSettings,
-                sceneRoot.inputSettings,
-                sceneRoot.entity
+                sceneRoot.inputSettings
             ]
 
             RenderSettings {

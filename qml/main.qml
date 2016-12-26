@@ -43,41 +43,39 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            entity: Entity {
-                WireframeMaterial {
-                    id: wireframeMaterial
-                    effect: WireframeEffect {}
-                    ambient: Qt.rgba( 0.2, 0.0, 0.0, 1.0 )
-                    diffuse: Qt.rgba( 0.8, 0.0, 0.0, 1.0 )
+            WireframeMaterial {
+                id: wireframeMaterial
+                effect: WireframeEffect {}
+                ambient: Qt.rgba( 0.2, 0.0, 0.0, 1.0 )
+                diffuse: Qt.rgba( 0.8, 0.0, 0.0, 1.0 )
 
-                    SequentialAnimation {
-                        loops: Animation.Infinite
-                        running: true
+                SequentialAnimation {
+                    loops: Animation.Infinite
+                    running: true
 
-                        NumberAnimation {
-                           target: wireframeMaterial;
-                           property: "lineWidth";
-                           duration: 1000;
-                           from: 0.8
-                           to: 1.8
-                        }
-
-                        NumberAnimation {
-                            target: wireframeMaterial;
-                            property: "lineWidth";
-                            duration: 1000;
-                            from: 1.8
-                            to: 0.8
-                        }
-
-                        PauseAnimation { duration: 1500 }
+                    NumberAnimation {
+                       target: wireframeMaterial;
+                       property: "lineWidth";
+                       duration: 1000;
+                       from: 0.8
+                       to: 1.8
                     }
-                }
 
-                TrefoilKnot {
-                    id: trefoilKnot
-                    material: wireframeMaterial
+                    NumberAnimation {
+                        target: wireframeMaterial;
+                        property: "lineWidth";
+                        duration: 1000;
+                        from: 1.8
+                        to: 0.8
+                    }
+
+                    PauseAnimation { duration: 1500 }
                 }
+            }
+
+            TrefoilKnot {
+                id: trefoilKnot
+                material: wireframeMaterial
             }
 
             Text {
