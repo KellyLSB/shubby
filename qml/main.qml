@@ -77,11 +77,6 @@ ApplicationWindow {
                 id: trefoilKnot
                 material: wireframeMaterial
             }
-
-            Text {
-                anchors.centerIn: parent
-                text: parent.width + 'x' + parent.height
-            }
         }
     }
 }

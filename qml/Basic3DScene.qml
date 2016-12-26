@@ -1,23 +1,28 @@
+import QtQuick 2.7
+import QtQuick.Scene3D 2.0
 import Qt3D.Core 2.0
 import Qt3D.Extras 2.0
 import Qt3D.Render 2.0
 import Qt3D.Input 2.0
 
-import QtDataVisualization 1.2
-
 Rectangle {
     id: scene3DRoot
-    anchors.fill: parent
-    anchors.margins: 0
     color: "darkRed"
 
-    // Any child items to Basic3DScene will be appended
+    // Any child Node to Basic3DScene will be appended
     // to the sceneRoot (Entity{}) item.
-    default property alias entities: sceneRoot.children
+    default property alias nodes: sceneRoot.childNodes
 
-    property alias camera: sceneRoot.camera
-    property alias renderSettings: sceneRoot.renderSettings
-    property alias inputSettings: sceneRoot.inputSettings
+    property alias camera: sceneRootCamera
+    property alias renderSettings: sceneRootRenderSettings
+    property alias inputSettings: sceneRootInputSettings
+    property alias text: scene3DRootText
+
+    Text {
+        id: scene3DRootText
+        anchors.centerIn: parent
+        text: parent.width + 'x' + parent.height
+    }
 
     // transform: Rotation {
     //     id: sceneRotation
@@ -57,7 +62,7 @@ Rectangle {
             }
 
             InputSettings {
-                id: sceneRootRenderSettings
+                id: sceneRootInputSettings
             }
 
             Camera {
